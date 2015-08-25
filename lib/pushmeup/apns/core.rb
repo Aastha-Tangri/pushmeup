@@ -79,10 +79,10 @@ protected
     
     rescue StandardError, Errno::EPIPE
       raise unless attempts < @retries
-    
-      @ssl.close
-      @sock.close
-    
+      Logger.info "Enter into custom pushmeup"
+      @ssl.close  unless @ssl.nil?
+      @sock.close unless @sock.nil?
+      Logger.info "Exit from custom pushmeup"
       attempts += 1
       retry
     end
