@@ -73,6 +73,7 @@ protected
     begin      
       Rails.logger.info "Exit from custom pushmeup"
       # If no @ssl is created or if @ssl is closed we need to start it
+      Rails.logger.info "Exit from custom pushmeup"
       if @ssl.nil? || @sock.nil? || @ssl.closed? || @sock.closed?
         @sock, @ssl = self.open_connection
       end
