@@ -33,6 +33,7 @@ module APNS
   end
   
   def self.send_notification(device_token, message)
+    Rails.logger.info "Enter into custom pushmeup"
     n = APNS::Notification.new(device_token, message)
     self.send_notifications([n])
   end
@@ -70,6 +71,7 @@ protected
     attempts = 1
   
     begin      
+      Rails.logger.info "Exit from custom pushmeup"
       # If no @ssl is created or if @ssl is closed we need to start it
       if @ssl.nil? || @sock.nil? || @ssl.closed? || @sock.closed?
         @sock, @ssl = self.open_connection
@@ -79,10 +81,8 @@ protected
     
     rescue StandardError, Errno::EPIPE
       raise unless attempts < @retries
-      Logger.info "Enter into custom pushmeup"
       @ssl.close  unless @ssl.nil?
       @sock.close unless @sock.nil?
-      Logger.info "Exit from custom pushmeup"
       attempts += 1
       retry
     end
